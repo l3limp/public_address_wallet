@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:stack_trace/stack_trace.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
 import 'api/json_rpc_request.dart';
@@ -108,7 +109,9 @@ class WalletConnect {
     String? clientId,
     PeerMeta? clientMeta,
   }) {
+    Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
     if (bridge.isEmpty && uri.isEmpty && session == null) {
+      launchUrl(metamaskDownloadLink);
       throw WalletConnectException(
         'Missing one of the required parameters: bridge / uri / session',
       );
