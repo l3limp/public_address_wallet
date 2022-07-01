@@ -48,11 +48,7 @@ class WalletConnector {
       );
     } catch (e) {
       launchUrl(metamaskDownloadLink);
-      print(e);
-      return WalletConnector._internal(
-        connector: _connector,
-        appInfo: appInfo,
-      );
+      throw Future.error(e);
     }
   }
 
