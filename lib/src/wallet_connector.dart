@@ -52,6 +52,7 @@ class WalletConnector {
   /// if user reject session in wallet, or something wrong happen throw an error
   /// in other case throw 'Unexpected exception'
   Future<String> publicAddress({Wallet wallet = Wallet.metamask}) async {
+    Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
     if (!connector.connected) {
       final session = await connector.createSession(
         onDisplayUri: (uri) async {
@@ -61,18 +62,21 @@ class WalletConnector {
           }
         },
       ).catchError((onError) {
+        launchUrl(metamaskDownloadLink);
         throw onError;
       });
       if (session.accounts.isNotEmpty) {
         var address = session.accounts.first;
         return address;
       } else {
+        launchUrl(metamaskDownloadLink);
         throw 'Unexpected exception';
       }
     } else {
       if (connector.session.accounts.isNotEmpty) {
         return connector.session.accounts.first;
       } else {
+        launchUrl(metamaskDownloadLink);
         throw 'Unexpected exception';
       }
     }
