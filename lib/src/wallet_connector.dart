@@ -11,6 +11,15 @@ import 'wallet_connect_sdk/walletconnect.dart';
 typedef OnSessionUriCallback = void Function(String uri);
 Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
 
+void _launchUrl() async {
+  if (!await launchUrl(
+    metamaskDownloadLink,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw 'Could not launch $metamaskDownloadLink';
+  }
+}
+
 /// WalletConnector is an object for implement WalletConnect protocol for
 /// mobile apps using deep linking to connect with wallets.
 class WalletConnector {
@@ -26,15 +35,6 @@ class WalletConnector {
 
   /// Connector using brigde 'https://bridge.walletconnect.org' by default.
   factory WalletConnector(AppInfo? appInfo, {String? bridge}) {
-    void _launchUrl() async {
-      if (!await launchUrl(
-        metamaskDownloadLink,
-        mode: LaunchMode.externalApplication,
-      )) {
-        throw 'Could not launch $metamaskDownloadLink';
-      }
-    }
-
     var _connector = WalletConnect();
     try {
       final connector = WalletConnect(
@@ -69,40 +69,31 @@ class WalletConnector {
   /// if user reject session in wallet, or something wrong happen throw an error
   /// in other case throw 'Unexpected exception'
   Future<String> publicAddress({Wallet wallet = Wallet.metamask}) async {
-    void _launchUrl() async {
-      if (!await launchUrl(
-        metamaskDownloadLink,
-        mode: LaunchMode.externalApplication,
-      )) {
-        throw 'Could not launch $metamaskDownloadLink';
-      }
-    }
-
     if (!connector.connected) {
       final session = await connector.createSession(
         onDisplayUri: (uri) async {
           var deeplink = DeeplinkHelper.getDeeplink(wallet: wallet, uri: uri);
           if (!await launch(deeplink, forceSafariVC: false)) {
-            throw Future.error(Exception("Platformmmmm"));
+            throw Future.error(Exception("Platform Exception"));
           }
         },
       ).catchError((onError) {
         _launchUrl();
-        throw Future.error(Exception("Platformmmmm"));
+        throw Future.error(Exception("Platform Exception"));
       });
       if (session.accounts.isNotEmpty) {
         var address = session.accounts.first;
         return address;
       } else {
         _launchUrl();
-        throw Future.error(Exception("Platformmmmm"));
+        throw Future.error(Exception("Platform Exception"));
       }
     } else {
       if (connector.session.accounts.isNotEmpty) {
         return connector.session.accounts.first;
       } else {
         _launchUrl();
-        throw Future.error(Exception("Platformmmmm"));
+        throw Future.error(Exception("Platform Exception"));
       }
     }
   }
