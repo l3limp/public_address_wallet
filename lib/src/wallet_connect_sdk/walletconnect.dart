@@ -110,8 +110,17 @@ class WalletConnect {
     PeerMeta? clientMeta,
   }) {
     Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
+    void _launchUrl() async {
+      if (!await launchUrl(
+        metamaskDownloadLink,
+        mode: LaunchMode.externalApplication,
+      )) {
+        throw 'Could not launch $metamaskDownloadLink';
+      }
+    }
+
     if (bridge.isEmpty && uri.isEmpty && session == null) {
-      launchUrl(metamaskDownloadLink);
+      _launchUrl();
       throw WalletConnectException(
         'Missing one of the required parameters: bridge / uri / session',
       );
