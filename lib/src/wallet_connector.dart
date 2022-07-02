@@ -26,6 +26,15 @@ class WalletConnector {
 
   /// Connector using brigde 'https://bridge.walletconnect.org' by default.
   factory WalletConnector(AppInfo? appInfo, {String? bridge}) {
+    void _launchUrl() async {
+      if (!await launchUrl(
+        metamaskDownloadLink,
+        mode: LaunchMode.externalApplication,
+      )) {
+        throw 'Could not launch $metamaskDownloadLink';
+      }
+    }
+
     var _connector = WalletConnect();
     try {
       final connector = WalletConnect(
@@ -47,7 +56,7 @@ class WalletConnector {
         appInfo: appInfo,
       );
     } catch (e) {
-      launchUrl(metamaskDownloadLink);
+      _launchUrl();
       throw Future.error(e);
     }
   }
@@ -60,6 +69,15 @@ class WalletConnector {
   /// if user reject session in wallet, or something wrong happen throw an error
   /// in other case throw 'Unexpected exception'
   Future<String> publicAddress({Wallet wallet = Wallet.metamask}) async {
+    void _launchUrl() async {
+      if (!await launchUrl(
+        metamaskDownloadLink,
+        mode: LaunchMode.externalApplication,
+      )) {
+        throw 'Could not launch $metamaskDownloadLink';
+      }
+    }
+
     if (!connector.connected) {
       final session = await connector.createSession(
         onDisplayUri: (uri) async {
@@ -69,21 +87,21 @@ class WalletConnector {
           }
         },
       ).catchError((onError) {
-        launchUrl(metamaskDownloadLink);
+        _launchUrl();
         throw Future.error(Exception("Platformmmmm"));
       });
       if (session.accounts.isNotEmpty) {
         var address = session.accounts.first;
         return address;
       } else {
-        launchUrl(metamaskDownloadLink);
+        _launchUrl();
         throw Future.error(Exception("Platformmmmm"));
       }
     } else {
       if (connector.session.accounts.isNotEmpty) {
         return connector.session.accounts.first;
       } else {
-        launchUrl(metamaskDownloadLink);
+        _launchUrl();
         throw Future.error(Exception("Platformmmmm"));
       }
     }
