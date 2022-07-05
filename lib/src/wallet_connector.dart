@@ -9,19 +9,7 @@ import 'wallet_connect_sdk/session/peer_meta.dart';
 import 'wallet_connect_sdk/walletconnect.dart';
 
 typedef OnSessionUriCallback = void Function(String uri);
-// Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
 
-// void _launchUrl() async {
-//   if (!await launchUrl(
-//     metamaskDownloadLink,
-//     mode: LaunchMode.externalApplication,
-//   )) {
-//     throw 'Could not launch $metamaskDownloadLink';
-//   }
-// }
-
-/// WalletConnector is an object for implement WalletConnect protocol for
-/// mobile apps using deep linking to connect with wallets.
 class WalletConnector {
   // walletconnect
   final WalletConnect connector;
@@ -54,7 +42,6 @@ class WalletConnector {
         appInfo: appInfo,
       );
     } catch (e) {
-      // _launchUrl();
       throw Exception("Wallet Exception");
     }
   }
