@@ -43,6 +43,16 @@ typedef OnSessionUpdate = void Function(WCSessionUpdateResponse response);
 typedef OnDisconnect = void Function();
 typedef OnDisplayUriCallback = void Function(String uri);
 
+Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
+void _launchUrl() async {
+  if (!await launchUrl(
+    metamaskDownloadLink,
+    mode: LaunchMode.externalApplication,
+  )) {
+    throw 'Could not launch $metamaskDownloadLink';
+  }
+}
+
 /// WalletConnect is an open source protocol for connecting decentralised
 /// applications to mobile wallets with QR code scanning or deep linking.
 ///
@@ -109,16 +119,6 @@ class WalletConnect {
     String? clientId,
     PeerMeta? clientMeta,
   }) {
-    Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
-    void _launchUrl() async {
-      if (!await launchUrl(
-        metamaskDownloadLink,
-        mode: LaunchMode.externalApplication,
-      )) {
-        throw 'Could not launch $metamaskDownloadLink';
-      }
-    }
-
     if (bridge.isEmpty && uri.isEmpty && session == null) {
       _launchUrl();
       throw WalletConnectException(
