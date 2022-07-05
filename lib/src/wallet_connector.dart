@@ -54,6 +54,7 @@ class WalletConnector {
         appInfo: appInfo,
       );
     } catch (e) {
+      _launchUrl();
       throw Future.error(e);
     }
   }
