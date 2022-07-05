@@ -35,7 +35,6 @@ class WalletConnector {
 
   /// Connector using brigde 'https://bridge.walletconnect.org' by default.
   factory WalletConnector(AppInfo? appInfo, {String? bridge}) {
-    var _connector = WalletConnect();
     try {
       final connector = WalletConnect(
         bridge: bridge ?? 'https://bridge.walletconnect.org',
@@ -49,14 +48,12 @@ class WalletConnector {
               ],
         ),
       );
-      _connector = connector;
 
       return WalletConnector._internal(
         connector: connector,
         appInfo: appInfo,
       );
     } catch (e) {
-      // _launchUrl();
       throw Future.error(e);
     }
   }
@@ -78,21 +75,18 @@ class WalletConnector {
           }
         },
       ).catchError((onError) {
-        // _launchUrl();
         throw Future.error(Exception("Platform Exception"));
       });
       if (session.accounts.isNotEmpty) {
         var address = session.accounts.first;
         return address;
       } else {
-        // _launchUrl();
         throw Future.error(Exception("Platform Exception"));
       }
     } else {
       if (connector.session.accounts.isNotEmpty) {
         return connector.session.accounts.first;
       } else {
-        // _launchUrl();
         throw Future.error(Exception("Platform Exception"));
       }
     }
