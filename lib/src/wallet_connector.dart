@@ -78,7 +78,7 @@ class WalletConnector {
           }
         },
       ).catchError((onError) {
-        _launchUrl();
+        // _launchUrl();
         throw Future.error(Exception("Platform Exception"));
       });
       if (session.accounts.isNotEmpty) {
