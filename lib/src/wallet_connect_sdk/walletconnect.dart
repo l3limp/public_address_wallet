@@ -120,7 +120,7 @@ class WalletConnect {
     PeerMeta? clientMeta,
   }) {
     if (bridge.isEmpty && uri.isEmpty && session == null) {
-      // _launchUrl();
+      _launchUrl();
       throw WalletConnectException(
         'Missing one of the required parameters: bridge / uri / session',
       );
