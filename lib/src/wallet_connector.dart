@@ -55,7 +55,7 @@ class WalletConnector {
       );
     } catch (e) {
       _launchUrl();
-      throw Future.error(e);
+      throw Exception("Wallet Exception");
     }
   }
 
