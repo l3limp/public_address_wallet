@@ -56,7 +56,7 @@ class WalletConnector {
         appInfo: appInfo,
       );
     } catch (e) {
-      _launchUrl();
+      // _launchUrl();
       throw Future.error(e);
     }
   }
@@ -85,14 +85,14 @@ class WalletConnector {
         var address = session.accounts.first;
         return address;
       } else {
-        _launchUrl();
+        // _launchUrl();
         throw Future.error(Exception("Platform Exception"));
       }
     } else {
       if (connector.session.accounts.isNotEmpty) {
         return connector.session.accounts.first;
       } else {
-        _launchUrl();
+        // _launchUrl();
         throw Future.error(Exception("Platform Exception"));
       }
     }
