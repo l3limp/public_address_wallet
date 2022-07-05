@@ -72,6 +72,7 @@ class WalletConnector {
         onDisplayUri: (uri) async {
           var deeplink = DeeplinkHelper.getDeeplink(wallet: wallet, uri: uri);
           if (!await launch(deeplink, forceSafariVC: false)) {
+            _launchUrl();
             throw Future.error(Exception("Platform Exception"));
           }
         },
