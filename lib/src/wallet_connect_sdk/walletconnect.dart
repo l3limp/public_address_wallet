@@ -4,7 +4,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:stack_trace/stack_trace.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 
 import 'api/json_rpc_request.dart';
@@ -42,16 +41,6 @@ typedef OnConnectRequest = void Function(SessionStatus status);
 typedef OnSessionUpdate = void Function(WCSessionUpdateResponse response);
 typedef OnDisconnect = void Function();
 typedef OnDisplayUriCallback = void Function(String uri);
-
-Uri metamaskDownloadLink = Uri.parse("https://metamask.io/download/");
-void _launchUrl() async {
-  if (!await launchUrl(
-    metamaskDownloadLink,
-    mode: LaunchMode.externalApplication,
-  )) {
-    throw 'Could not launch $metamaskDownloadLink';
-  }
-}
 
 /// WalletConnect is an open source protocol for connecting decentralised
 /// applications to mobile wallets with QR code scanning or deep linking.
